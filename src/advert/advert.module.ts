@@ -8,5 +8,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   controllers: [AdvertController],
   providers: [AdvertService],
   imports: [TypeOrmModule.forFeature([Advert])],
+  exports: [AdvertService],
 })
 export class AdvertModule {}

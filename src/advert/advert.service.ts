@@ -4,6 +4,7 @@ import { UpdateAdvertDto } from './dto/update-advert.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Advert } from './entities/advert.entity';
 import { Repository } from 'typeorm';
+import { QueriesAdvertDto } from './dto/query-advert.dto';
 
 @Injectable()
 export class AdvertService {
@@ -20,11 +21,28 @@ export class AdvertService {
     }
   }
 
-  async findAll() {
+  async findAll(queries: QueriesAdvertDto) {
+    const {
+      max_price,
+      min_price,
+      order = 'DESC',
+      order_by = 'price',
+    } = queries;
+
     try {
-      return await this.advertRepository.find({
-        relations: ['user'],
-      });
+      const query = await this.advertRepository.createQueryBuilder('advert');
+      if (max_price) {
+        query.andWhere('advert.price <= :max_price', { max_price });
+      }
+
+      if (min_price) {
+        query.andWhere('advert.price >= :min_price', { min_price });
+      }
+
+      query.orderBy(`advert.${order_by}`, order);
+
+      const advertsList = query.getMany();
+      return advertsList;
     } catch (error) {
       throw new Error(error);
     }

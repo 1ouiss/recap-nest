@@ -12,24 +12,81 @@ import {
 export class Advert {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column()
-  adress: string;
+
   @Column()
   title: string;
-  // @Column()
-  // state: boolean;
+
+  @Column({
+    type: 'float',
+    default: 0,
+  })
+  price: number;
+
+  @Column()
+  description: string;
+
+  @Column()
+  nb_rooms: number;
+
+  @Column()
+  square_meters: number;
+
+  @Column({
+    nullable: true,
+  })
+  formatted_address: string;
+
+  @Column({
+    nullable: true,
+  })
+  street_number: number;
+
+  @Column({
+    nullable: true,
+  })
+  route: string;
+
+  @Column({
+    nullable: true,
+  })
+  city: string;
+
+  @Column({
+    nullable: true,
+  })
+  administrative_area_level_1: string;
+
+  @Column({
+    nullable: true,
+  })
+  administrative_area_level_2: string;
+
+  @Column({
+    nullable: true,
+  })
+  country: string;
+
+  @Column({
+    nullable: true,
+  })
+  postal_code: number;
+
+  @Column({
+    nullable: true,
+  })
+  lat: number;
+
+  @Column({
+    nullable: true,
+  })
+  lng: number;
+
+  @Column()
+  phoneNumber: string;
+
   @ManyToOne(() => User, (user) => user.adverts)
   user: User;
-  // @Column()
-  // dpe: string;
-  // @Column()
-  // gse: string;
-  // @Column()
-  // price: number;
-  // @Column()
-  // size: number;
-  // @Column()
-  // surface: number;
+
   @CreateDateColumn()
   createdAt: Date;
   @UpdateDateColumn()
