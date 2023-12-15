@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { QueriesUserDto } from './dto/query-user.dto';
 
 @Injectable()
 export class UserService {
@@ -20,11 +21,22 @@ export class UserService {
     }
   }
 
-  async findAll() {
+  async findAll(queries: QueriesUserDto) {
+    const { name, order = 'ASC', order_by = 'createdAt' } = queries;
+
     try {
-      return await this.userRepository.find({
-        relations: ['adverts'],
-      });
+      const query = await this.userRepository.createQueryBuilder('user');
+
+      if (name) {
+        query.andWhere('user.name like :name', { name: `%${name}%` });
+      }
+
+      query
+        .orderBy(`user.${order_by}`, order)
+        .leftJoinAndSelect('user.adverts', 'advert');
+
+      const usersList = await query.getMany();
+      return usersList;
     } catch (error) {
       throw new Error(error);
     }
