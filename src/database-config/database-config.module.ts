@@ -4,6 +4,7 @@ import { DatabaseConfigController } from './database-config.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { AdvertModule } from 'src/advert/advert.module';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { AdvertModule } from 'src/advert/advert.module';
       synchronize: true,
     }),
     AdvertModule,
+    UserModule,
   ],
   controllers: [
     process.env.NODE_ENV === 'development' && DatabaseConfigController,
