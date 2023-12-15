@@ -1,3 +1,5 @@
+import { User } from 'src/user/entities/user.entity';
+
 export class CreateAdvertDto {
   title: string;
   price: number;
@@ -15,4 +17,5 @@ export class CreateAdvertDto {
   lat?: number;
   lng?: number;
   phoneNumber: string;
+  user: User;
 }

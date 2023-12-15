@@ -13,7 +13,7 @@ import { CreateAdvertDto } from './dto/create-advert.dto';
 import { UpdateAdvertDto } from './dto/update-advert.dto';
 import { QueriesAdvertDto } from './dto/query-advert.dto';
 
-@Controller('advert')
+@Controller('adverts')
 export class AdvertController {
   constructor(private readonly advertService: AdvertService) {}
 

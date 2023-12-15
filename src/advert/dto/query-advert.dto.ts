@@ -8,4 +8,5 @@ export class QueriesAdvertDto {
   max_square_meters?: number;
   order?: 'DESC' | 'ASC';
   order_by?: 'price' | 'nb_rooms' | 'square_meters' | 'created_at';
+  name?: string;
 }

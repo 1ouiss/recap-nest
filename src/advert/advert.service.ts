@@ -27,16 +27,50 @@ export class AdvertService {
       min_price,
       order = 'DESC',
       order_by = 'price',
+      min_nb_rooms,
+      max_nb_rooms,
+      min_square_meters,
+      max_square_meters,
+      name,
     } = queries;
 
     try {
-      const query = await this.advertRepository.createQueryBuilder('advert');
+      const query = await this.advertRepository
+        .createQueryBuilder('advert')
+        .leftJoinAndSelect('advert.user', 'user');
+
+      if (name) {
+        query.andWhere('user.name like :name', {
+          name: `%${name}%`,
+        });
+      }
+
       if (max_price) {
         query.andWhere('advert.price <= :max_price', { max_price });
       }
 
       if (min_price) {
         query.andWhere('advert.price >= :min_price', { min_price });
+      }
+
+      if (min_nb_rooms) {
+        query.andWhere('advert.nb_rooms >= :min_nb_rooms', { min_nb_rooms });
+      }
+
+      if (max_nb_rooms) {
+        query.andWhere('advert.nb_rooms <= :max_nb_rooms', { max_nb_rooms });
+      }
+
+      if (min_square_meters) {
+        query.andWhere('advert.square_meters >= :min_square_meters', {
+          min_square_meters,
+        });
+      }
+
+      if (max_square_meters) {
+        query.andWhere('advert.square_meters <= :max_square_meters', {
+          max_square_meters,
+        });
       }
 
       query.orderBy(`advert.${order_by}`, order);
