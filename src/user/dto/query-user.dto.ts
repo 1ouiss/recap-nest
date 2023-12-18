@@ -3,4 +3,6 @@ export class QueriesUserDto {
   name?: string;
   order?: 'DESC' | 'ASC';
   order_by?: 'name' | 'createdAt';
+  per_page?: number;
+  page?: number;
 }

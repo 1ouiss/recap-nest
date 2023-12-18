@@ -22,7 +22,13 @@ export class UserService {
   }
 
   async findAll(queries: QueriesUserDto) {
-    const { name, order = 'ASC', order_by = 'createdAt' } = queries;
+    const {
+      name,
+      order = 'ASC',
+      order_by = 'createdAt',
+      per_page = 10,
+      page = 1,
+    } = queries;
 
     try {
       const query = await this.userRepository.createQueryBuilder('user');
@@ -33,10 +39,19 @@ export class UserService {
 
       query
         .orderBy(`user.${order_by}`, order)
-        .leftJoinAndSelect('user.adverts', 'advert');
+        .leftJoinAndSelect('user.adverts', 'advert')
+        .take(per_page)
+        .skip(per_page * (page - 1));
 
       const usersList = await query.getMany();
-      return usersList;
+      return {
+        data: usersList,
+        meta: {
+          page,
+          per_page,
+          total: usersList.length,
+        },
+      };
     } catch (error) {
       throw new Error(error);
     }

@@ -28,7 +28,7 @@ export class DatabaseConfigService {
         square_meters: this.randomNumber(9, 100),
         description: faker.lorem.paragraphs(5),
         phoneNumber: faker.phone.number(),
-        user: users[this.randomNumber(0, users.length)],
+        user: users.data[this.randomNumber(0, users.data.length)],
       });
     }
 
